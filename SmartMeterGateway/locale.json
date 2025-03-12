@@ -1,0 +1,15 @@
+{
+	"translations": {
+		"de": { 
+			"IP": "IP",
+			"Username": "Benutzername",
+			"Password": "Passwort",
+			"Interval": "Intervall",
+			"Seconds": "Sekunden",
+			"Update": "Aktualisieren",
+			"Power": "Leistung",
+			"Grid Consumption": "Netzbezug",
+			"Grid Production": "Netzeinspeisung"
+		}
+	}
+}

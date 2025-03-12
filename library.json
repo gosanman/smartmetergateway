@@ -1,0 +1,12 @@
+{
+	"id": "{B7EC2543-D433-DF0A-9050-B6EAF7F36124}",
+	"author": "sanman",
+	"name": "SmartMeterGateway",
+	"url": "https://github.com/gosanman/smartmetergateway",
+	"compatibility": {
+		"version": "5.0"
+	},
+	"version": "0.1",
+	"build": 0,
+	"date": 0
+}

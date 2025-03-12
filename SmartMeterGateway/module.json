@@ -1,0 +1,14 @@
+{
+	"id": "{483472DD-35A2-CC30-C6C2-0C0A160DF1D4}",
+	"name": "SmartMeterGateway",
+	"type": 3,
+	"vendor": "",
+	"aliases": 
+	[
+		"SmartMeterGateway"
+	],
+	"parentRequirements": [],
+	"childRequirements": [],
+	"implemented": [],
+	"prefix": "SMGW"
+}
