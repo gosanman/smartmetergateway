@@ -168,13 +168,13 @@
 			static $nc = 1; // Nonce-Counter (wird bei jeder Anfrage erhöht)
 			$cnonce = md5(microtime(true) . rand());
 			$path = parse_url($url, PHP_URL_PATH);
-			$digestParams = json_decode($this->ReadAttributeString("AuthHeader"), true); // laden
+			$digestParams = json_decode($this->ReadAttributeString("AuthHeader"), true);
 
-			// Falls digestParams leer ist Auth-Daten abrufen
+			// Falls digestParams leer ist Auth-Daten abrufen und speichern
 			if (!$digestParams) {
 				$this->SendDebug("GetData", "DigestAuthParams sind leer, werden neu abgerufen und gespeichert!", 0);
 				$digestParams = $this->getDigestAuthParams($url, $username, $password);
-				$this->WriteAttributeString("AuthHeader", $digestParams);
+				$this->WriteAttributeString("AuthHeader", json_encode($digestParams));
 			}
 
 			$authHeader = $this->getAuthHeader($username, $password, $digestParams, "GET", $path, $nc, $cnonce);
@@ -193,12 +193,12 @@
 
 			curl_close($ch);
 
-			// Falls der Server 401 liefert, Auth-Header neu abrufen und erneut senden
+			// Falls der Server 401 liefert, Auth-Header neu abrufen, speichern und erneut senden
 			static $retryCount = 0;
 			if ($httpCode == 401 && $retryCount < 3) {
 				$this->SendDebug("GetData", "DigestAuthParams sind abgelaufen, werden neu abgerufen und gespeichert! (" . $retryCount . ")", 0);
 				$digestParams = $this->getDigestAuthParams($url, $username, $password);
-				$this->WriteAttributeString("AuthHeader", $digestParams);
+				$this->WriteAttributeString("AuthHeader", json_encode($digestParams));
 				$retryCount++;
 				return $this->GetData($url);
 			} else {
