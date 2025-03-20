@@ -6,10 +6,13 @@
 			"Password": "Passwort",
 			"Interval": "Intervall",
 			"Seconds": "Sekunden",
+			"Please press once -Read Device- to load the correct derived and meter id.": "Bitte drücke einmal auf -Gerät auslesen- um den korrekte Vertrag und Zähler ID zu laden.",
+			"Read Device": "Gerät auslesen",
 			"Update": "Aktualisieren",
+			"Load Configuration...": "Konfiguration laden...",
 			"Power": "Leistung",
-			"Grid Consumption": "Netzbezug",
-			"Grid Production": "Netzeinspeisung"
+			"Grid Consumption (1.8.0)": "Netzbezug (1.8.0)",
+			"Grid Production(2.8.0)": "Netzeinspeisung (2.8.0)"
 		}
 	}
 }

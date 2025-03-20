@@ -12,6 +12,9 @@
 	],
 	"actions":
     [
-        { "type": "Button", "label": "Update", "onClick": "SMGW_Update($id);" }
+		{ "type": "Label", "caption": "Please press once -Read Device- to load the correct derived and meter id." },
+		{ "type": "ProgressBar", "visible": false, "name": "ConfigProgress", "indeterminate": true,	"caption": "Load Configuration..."},
+		{ "type": "Button", "label": "Read Device", "onClick": "SMGW_GetDerived($id);" },
+		{ "type": "Button", "label": "Update", "onClick": "SMGW_Update($id);" }
     ]
 }
