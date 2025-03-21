@@ -10,7 +10,7 @@
 
 			//Erstelle Variable
 			if (!@$this->GetIDForIdent('power')) {
-				$this->RegisterVariableFloat('power', $this->Translate('Power'), '~ValuePower.KNX', 1);
+				$this->RegisterVariableFloat('power', $this->Translate('Power'), '~Watt', 1);
 			}
 			if (!@$this->GetIDForIdent('gridConsumption')) {
 				$this->RegisterVariableFloat('gridConsumption', $this->Translate('Grid Consumption (1.8.0)'), '~Electricity', 2);
@@ -66,7 +66,9 @@
 			}
 
 			$this->WriteAttributeString('Derived', $derived);
+			$this->SendDebug("GetDerived", "TAF-1 Vertrag: " . $derived, 0);
 			$this->WriteAttributeString('MeterID', $meterid);
+			$this->SendDebug("GetDerived", "MeterID: " . $meterid, 0);
 
 			$this->UpdateFormField("ConfigProgress", "visible", false); 	// Progressbar ausblenden
 
