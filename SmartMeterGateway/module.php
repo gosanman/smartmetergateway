@@ -54,6 +54,14 @@
 		public function GetDerived() {
 			
 			$this->UpdateFormField("ConfigProgress", "visible", true);		// Progressbar anzeigen
+			
+			// Prüfe zuerst die Verbindung
+			if (!$this->CheckConnection()) {
+				$this->SendDebug("GetDerived", "Verbindung zum Smart Meter Gateway nicht möglich!", 0);
+				$this->UpdateFormField("ConfigProgress", "visible", false);
+				return false;
+			}
+			
 			$url = 'https://' . $this->ReadPropertyString('IP') . '/json/metering/derived';
 			$data = $this->GetData($url);
 			foreach ($data as $key => $value) {
@@ -237,4 +245,38 @@
 			return $valuePart . '.' . $subValuePart . '.' . $lastPart; // Nur Werte des ersten Zaehlers
 		}		
 		
+		public function CheckConnection() {
+	
+			$url = 'https://' . $this->ReadPropertyString('IP');
+			$ch = curl_init($url);
+			
+			// Grundlegende cURL Optionen
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($ch, CURLOPT_TIMEOUT, 10);           // Timeout nach 10 Sekunden
+			curl_setopt($ch, CURLOPT_NOBODY, true);          // Nur Header abrufen
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // SSL-Verifizierung deaktivieren
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false); // Hostname-Verifizierung deaktivieren
+			
+			$result = curl_exec($ch);
+			$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+			$error = curl_error($ch);
+			
+			curl_close($ch);
+			
+			// Debug Ausgaben
+			$this->SendDebug("CheckConnection", "HTTP Status Code: " . $httpCode, 0);
+			if ($error) {
+				$this->SendDebug("CheckConnection", "Fehler: " . $error, 0);
+			}
+			
+			// Auswertung
+			if ($httpCode >= 200 && $httpCode < 400 && $httpCode == 401) {
+				//echo "Smart Meter Gateway erreichbar!";
+				return true;
+			} else {
+				echo sprintf("Verbindung fehlgeschlagen (HTTP Code: %d)!", $httpCode);
+				return false;
+			}
+		}
+
     }
