@@ -253,7 +253,6 @@
 			// Grundlegende cURL Optionen
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_TIMEOUT, 10);           // Timeout nach 10 Sekunden
-			curl_setopt($ch, CURLOPT_NOBODY, true);          // Nur Header abrufen
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // SSL-Verifizierung deaktivieren
 			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false); // Hostname-Verifizierung deaktivieren
 			
@@ -264,17 +263,17 @@
 			curl_close($ch);
 			
 			// Debug Ausgaben
-			$this->SendDebug("CheckConnection", "HTTP Status Code: " . $httpCode, 0);
+			$this->SendDebug("CheckConnection", "Verbindung erfolgreich (HTTP Code: " . $httpCode . ")", 0);
 			if ($error) {
 				$this->SendDebug("CheckConnection", "Fehler: " . $error, 0);
 			}
 			
 			// Auswertung
-			if ($httpCode >= 200 && $httpCode < 400 && $httpCode == 401) {
+			if ($httpCode >= 200 && $httpCode <= 401) {
 				//echo "Smart Meter Gateway erreichbar!";
 				return true;
 			} else {
-				echo sprintf("Verbindung fehlgeschlagen (HTTP Code: %d)!", $httpCode);
+				echo sprintf("Verbindung fehlgeschlagen (HTTP Code: %d)", $httpCode);
 				return false;
 			}
 		}
