@@ -18,6 +18,36 @@
 			if (!@$this->GetIDForIdent('gridProduction')) {
 				$this->RegisterVariableFloat('gridProduction', $this->Translate('Grid Production (2.8.0)'), '~Electricity', 3);
 			}
+			if (!@$this->GetIDForIdent('powerFrequency')) {
+				$this->RegisterVariableFloat('powerFrequency', $this->Translate('Power Frequency'), '~Hertz.50', 4);
+			}
+			if (!@$this->GetIDForIdent('currentL1')) {
+				$this->RegisterVariableFloat('currentL1', $this->Translate('Current L1'), '~Ampere', 5);
+			}
+			if (!@$this->GetIDForIdent('voltageL1')) {
+				$this->RegisterVariableFloat('voltageL1', $this->Translate('Voltage L1'), '~Volt.230', 6);
+			}
+			if (!@$this->GetIDForIdent('currentL2')) {
+				$this->RegisterVariableFloat('currentL2', $this->Translate('Current L2'), '~Ampere', 7);
+			}
+			if (!@$this->GetIDForIdent('voltageL2')) {
+				$this->RegisterVariableFloat('voltageL2', $this->Translate('Voltage L2'), '~Volt.230', 8);
+			}
+			if (!@$this->GetIDForIdent('currentL3')) {
+				$this->RegisterVariableFloat('currentL3', $this->Translate('Current L3'), '~Ampere', 9);
+			}
+			if (!@$this->GetIDForIdent('voltageL3')) {
+				$this->RegisterVariableFloat('voltageL3', $this->Translate('Voltage L3'), '~Volt.230', 10);
+			}
+			if (!@$this->GetIDForIdent('powerFactorL1')) {
+				$this->RegisterVariableFloat('powerFactorL1', $this->Translate('Power Factor L1'), '', 11);
+			}
+			if (!@$this->GetIDForIdent('powerFactorL2')) {
+				$this->RegisterVariableFloat('powerFactorL2', $this->Translate('Power Factor L2'), '', 12);
+			}
+			if (!@$this->GetIDForIdent('powerFactorL3')) {
+				$this->RegisterVariableFloat('powerFactorL3', $this->Translate('Power Factor L3'), '', 13);
+			}
 			
 			$this->RegisterPropertyString('IP', "");
 			$this->RegisterPropertyString('Username', "");
@@ -95,10 +125,16 @@
 				// Umrechnung: 
 				// Wenn unit 30, dann durch 1000000 (kWh)
 				// Wenn unit 27, dann durch 1000 (W)
+				// Wenn unit 33, 35, 44, dann durch 100 (A, V, Hz)
+				// Wenn unit 8, dann durch 1000 (Leistungsfaktor)
 				if ($item['unit'] == 30) {          // kWh
 					$value = $value / 1000000;
 				} elseif ($item['unit'] == 27) {    // W
 					$value = $value / 1000;
+				} elseif ($item['unit'] == 33 || $item['unit'] == 35 || $item['unit'] == 44) {    // A, V, Hz
+					$value = $value / 100;
+				} elseif ($item['unit'] == 8) {    // Leistungsfaktor
+					$value = round($value / 1000, 1);
 				}
 
 				// Umrechnung des logical_name (Hex-Wert in Format)
@@ -111,11 +147,41 @@
 				if ($obisCode == "2.8.0") {
 					SetValue($this->GetIDForIdent('gridProduction'), $value);
 				}
+				if ($obisCode == "14.7.0") {
+					SetValue($this->GetIDForIdent('powerFrequency'), $value);
+				}
 				if ($obisCode == "16.7.0") {
 					SetValue($this->GetIDForIdent('power'), $value);
 				}
+				if ($obisCode == "31.7.0") {
+					SetValue($this->GetIDForIdent('currentL1'), $value);
+				}
+				if ($obisCode == "32.7.0") {
+					SetValue($this->GetIDForIdent('voltageL1'), $value);
+				}
+				if ($obisCode == "51.7.0") {
+					SetValue($this->GetIDForIdent('currentL2'), $value);
+				}
+				if ($obisCode == "52.7.0") {
+					SetValue($this->GetIDForIdent('voltageL2'), $value);
+				}
+				if ($obisCode == "71.7.0") {
+					SetValue($this->GetIDForIdent('currentL3'), $value);
+				}
+				if ($obisCode == "72.7.0") {
+					SetValue($this->GetIDForIdent('voltageL3'), $value);
+				}
+				if ($obisCode == "81.7.4") {
+					SetValue($this->GetIDForIdent('powerFactorL1'), $value);
+				}
+				if ($obisCode == "81.7.15") {
+					SetValue($this->GetIDForIdent('powerFactorL2'), $value);
+				}
+				if ($obisCode == "81.7.26") {
+					SetValue($this->GetIDForIdent('powerFactorL3'), $value);
+				}
 			}
-		}		
+		}
 
 		// Digest-Authentifizierungs-Header abrufen
 		public function getDigestAuthParams($url, $username, $password) {
@@ -226,10 +292,25 @@
 		}
 
 		// Funktion zur Umrechnung des Hex-Werts in den OBIS-Code
-		// Register	    Einheit		Beschreibung
-		// 1-0:1.8.0	kWh	        Elektrische Wirkarbeit Bezug Gesamt
-		// 1-0:2.8.0	kWh	        Elektrische Wirkarbeit Lieferung Gesamt
-		// 1-0:16.7.0	W	        Wirkleistung Verbrauch
+		// | OBIS-Code | Bedeutung                                               | Einheit   |
+		// | --------- | ------------------------------------------------------- | --------- |
+		// | 1.8.0     | Wirkenergie Bezug gesamt (Import)                       | kWh       |
+		// | 2.8.0     | Wirkenergie Lieferung gesamt (Export / Einspeisung)     | kWh       |
+		// | --------- | ------------------------------------------------------- | --------- |
+		// | 14.7.0    | Netzfrequenz                                            | Hz        |
+		// | 16.7.0    | Momentan Wirkleistung gesamt (Bezug + / Lieferung −)    | W         |
+		// | --------- | ------------------------------------------------------- | --------- |
+		// | 31.7.0    | Strom Phase L1                                          | A         |
+		// | 32.7.0    | Spannung Phase L1                                       | V         |
+		// | 51.7.0    | Strom Phase L2                                          | A         |
+		// | 52.7.0    | Spannung Phase L2                                       | V         |
+		// | 71.7.0    | Strom Phase L3                                          | A         |
+		// | 72.7.0    | Spannung Phase L3                                       | V         |
+		// | --------- | ------------------------------------------------------- | --------- |
+		// | 81.7.4    | Leistungsfaktor Phase L1 (cos φ)                        | –         |
+		// | 81.7.15   | Leistungsfaktor Phase L2 (cos φ)                        | –         |
+		// | 81.7.26   | Leistungsfaktor Phase L3 (cos φ)                        | –         |
+		// | ------------------------------------------------------------------------------- |
 
 		public function convertToOBIS($hex) {
 

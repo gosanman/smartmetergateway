@@ -12,7 +12,17 @@
 			"Load Configuration...": "Konfiguration laden...",
 			"Power": "Leistung",
 			"Grid Consumption (1.8.0)": "Netzbezug (1.8.0)",
-			"Grid Production(2.8.0)": "Netzeinspeisung (2.8.0)"
+			"Grid Production (2.8.0)": "Netzeinspeisung (2.8.0)",
+			"Power Frequency": "Netzfrequenz",
+			"Voltage L1": "Spannung L1",
+			"Current L1": "Strom L1",
+			"Power Factor L1": "Leistungsfaktor L1",
+			"Voltage L2": "Spannung L2",
+			"Current L2": "Strom L2",
+			"Power Factor L2": "Leistungsfaktor L2",
+			"Voltage L3": "Spannung L3",
+			"Current L3": "Strom L3",
+			"Power Factor L3": "Leistungsfaktor L3"
 		}
 	}
 }
