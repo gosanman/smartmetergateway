@@ -1,28 +1,60 @@
 {
 	"translations": {
-		"de": { 
+		"de": {
 			"IP": "IP",
 			"Username": "Benutzername",
 			"Password": "Passwort",
 			"Interval": "Intervall",
 			"Seconds": "Sekunden",
-			"Please press once -Read Device- to load the correct derived and meter id.": "Bitte drücke einmal auf -Gerät auslesen- um den korrekte Vertrag und Zähler ID zu laden.",
+
+			"Please press once -Read Device- to load the correct derived and meter id.": "Bitte drücke einmal auf -Gerät auslesen- um den korrekten Vertrag und die Zähler ID zu laden.",
 			"Read Device": "Gerät auslesen",
 			"Update": "Aktualisieren",
 			"Load Configuration...": "Konfiguration laden...",
-			"Power": "Leistung",
+
+			"Diagnostics": "Diagnose",
+			"Scan OBIS Codes lists all values delivered by the gateway, including those not evaluated by this module.": "-OBIS-Codes auslesen- listet alle vom Gateway gelieferten Werte auf, auch die, die dieses Modul nicht auswertet.",
+			"Test Connection": "Verbindung testen",
+			"Scan OBIS Codes": "OBIS-Codes auslesen",
+			"Show Stored IDs": "Gespeicherte IDs anzeigen",
+			"Reset Meter ID": "Zähler ID zurücksetzen",
+			"Really reset the stored contract and meter id?": "Gespeicherten Vertrag und Zähler ID wirklich zurücksetzen?",
+
+			"Smart Meter Gateway reachable.": "Smart Meter Gateway erreichbar.",
+			"Connection to the Smart Meter Gateway failed!": "Verbindung zum Smart Meter Gateway fehlgeschlagen!",
+			"No TAF-1 contract found. Please check IP, username, password and the instance debug log.": "Es konnte kein TAF-1 Vertrag gefunden werden. Bitte prüfe IP, Benutzername und Passwort sowie das Debug-Log der Instanz.",
+			"Found TAF-1 contract: %s with meter id %s.": "Es wurde der folgende TAF-1 Vertrag gefunden: %s mit der Zähler ID %s.",
+			"Please enter the IP address first.": "Bitte trage zuerst die IP-Adresse ein.",
+			"No meter found. Please run \"Read Device\" first.": "Es wurde kein Zähler gefunden. Bitte zuerst -Gerät auslesen- ausführen.",
+			"Stored ids have been reset and will be detected again on the next update.": "Die gespeicherten IDs wurden zurückgesetzt und werden beim nächsten Abruf neu ermittelt.",
+
+			"Creating instance": "Instanz wird erstellt",
+			"Instance is active": "Instanz ist aktiv",
+			"Instance is inactive": "Instanz ist inaktiv",
+
+			"Power": "Wirkleistung gesamt",
+			"Power Factor": "Leistungsfaktor gesamt",
+			"Power Frequency": "Netzfrequenz",
 			"Grid Consumption (1.8.0)": "Netzbezug (1.8.0)",
 			"Grid Production (2.8.0)": "Netzeinspeisung (2.8.0)",
-			"Power Frequency": "Netzfrequenz",
+
 			"Voltage L1": "Spannung L1",
 			"Current L1": "Strom L1",
+			"Active Power L1": "Wirkleistung L1",
 			"Power Factor L1": "Leistungsfaktor L1",
+			"Phase Angle L1": "Phasenwinkel L1",
+
 			"Voltage L2": "Spannung L2",
 			"Current L2": "Strom L2",
+			"Active Power L2": "Wirkleistung L2",
 			"Power Factor L2": "Leistungsfaktor L2",
+			"Phase Angle L2": "Phasenwinkel L2",
+
 			"Voltage L3": "Spannung L3",
 			"Current L3": "Strom L3",
-			"Power Factor L3": "Leistungsfaktor L3"
+			"Active Power L3": "Wirkleistung L3",
+			"Power Factor L3": "Leistungsfaktor L3",
+			"Phase Angle L3": "Phasenwinkel L3"
 		}
 	}
 }
