@@ -4,9 +4,9 @@
 	"name": "SmartMeterGateway",
 	"url": "https://github.com/gosanman/smartmetergateway",
 	"compatibility": {
-		"version": "5.0"
+		"version": "6.0"
 	},
-	"version": "0.1",
+	"version": "0.3",
 	"build": 0,
 	"date": 0
 }
